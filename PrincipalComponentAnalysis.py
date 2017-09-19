@@ -2,7 +2,7 @@
 
 import numpy as np;
 
-file = open("../../Desktop/sample.txt", "r");
+file = open("../../Desktop/pca_a.txt", "r");
 lines = file.readlines();
 rows = len(lines);
 
@@ -83,5 +83,6 @@ def PCAImplementation(eigenVector, newMatrix):
     for row in range(rows):
         for column in range(columns):
             finalMatrix[row] += newMatrix[row][column] * eigenVector[column];
+    print(finalMatrix)
 
 createMatrix();
