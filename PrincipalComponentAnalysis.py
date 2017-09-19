@@ -1,5 +1,6 @@
 #Principal Component Analysis
 
+import numpy as np;
 
 file = open("../../Desktop/pca_a.txt", "r");
 lines = file.readlines();
@@ -54,6 +55,7 @@ def findMean(matrix, rows, columns):
 -------------------------------------------------------------
 This method creates a new matrix called as newMatrix in which each
 feature of each record is subtracted by the mean of that feature.
+After that covariance matrix is formed.
 -------------------------------------------------------------
 """
 
@@ -62,5 +64,13 @@ def transformedMatrix(matrix, mean, rows, columns):
     for column in range(columns):
         for row in range(rows):
             newMatrix[row][column] = float(matrix[row][column]) - mean[column];
+    covariance = np.cov(np.transpose(newMatrix));
+    generateEigenValuesAndVectors(covariance);
+
+def generateEigenValuesAndVectors(covariance):
+    values, vectors = np.linalg.eig(covariance);
+    maxEigenValue = values[0];
+    maxEigenVector = vectors[0];
+    print(maxEigenValue, " -- ",maxEigenVector);
 
 createMatrix();
