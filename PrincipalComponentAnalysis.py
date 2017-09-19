@@ -77,9 +77,14 @@ maximum eigenvalue.
 
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance)
-    maxEigenValue = np.amax(values)
+    sortedValues = values.sort();
+    print("Original ",values,"\nSorted ",sortedValues);
+    maxEigenValues = []
+    maxEigenVectors = []
+    maxEigenValues[0] = values[0];
+    maxEigenValues[1] = values[1];
     for i in range(len(values)):
-        if values[i] == maxEigenValue:
+        if values[i] == maxEigenValues:
             maxEigenVector = vectors[i]
             break
     PCAImplementation(maxEigenVector, newMatrix)
