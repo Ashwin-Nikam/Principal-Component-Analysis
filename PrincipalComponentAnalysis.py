@@ -67,6 +67,14 @@ def transformedMatrix(matrix, mean, rows, columns):
     covariance = np.cov(np.transpose(newMatrix));
     generateEigenValuesAndVectors(covariance, newMatrix);
 
+"""
+-------------------------------------------------------------
+Generated the eigenvalues and eigenvectors from the covariance
+matrix. Then selected the eigenvector corresponding to the 
+maximum eigenvalue.
+-------------------------------------------------------------
+"""
+
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance);
     maxEigenValue = np.amax(values);
@@ -75,6 +83,14 @@ def generateEigenValuesAndVectors(covariance, newMatrix):
             maxEigenVector = vectors[i];
             break;
     PCAImplementation(maxEigenVector, newMatrix);
+
+"""
+-------------------------------------------------------------
+This is the main and final method for dimensionality reduction.
+Multiplied each row in the newMatrix by the eigenvector corresponding
+to the maximum eigenvalue.
+-------------------------------------------------------------
+"""
 
 def PCAImplementation(eigenVector, newMatrix):
     rows = np.shape(newMatrix)[0];
