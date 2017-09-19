@@ -2,7 +2,7 @@
 
 import numpy as np;
 
-file = open("../../Desktop/pca_a.txt", "r");
+file = open("../../Desktop/sample.txt", "r");
 lines = file.readlines();
 rows = len(lines);
 
@@ -65,12 +65,23 @@ def transformedMatrix(matrix, mean, rows, columns):
         for row in range(rows):
             newMatrix[row][column] = float(matrix[row][column]) - mean[column];
     covariance = np.cov(np.transpose(newMatrix));
-    generateEigenValuesAndVectors(covariance);
+    generateEigenValuesAndVectors(covariance, newMatrix);
 
-def generateEigenValuesAndVectors(covariance):
+def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance);
-    maxEigenValue = values[0];
-    maxEigenVector = vectors[0];
-    print(maxEigenValue, " -- ",maxEigenVector);
+    maxEigenValue = np.amax(values);
+    for i in range(len(values)):
+        if values[i] == maxEigenValue:
+            maxEigenVector = vectors[i];
+            break;
+    PCAImplementation(maxEigenVector, newMatrix);
+
+def PCAImplementation(eigenVector, newMatrix):
+    rows = np.shape(newMatrix)[0];
+    columns = np.shape(newMatrix)[1];
+    finalMatrix = np.zeros(rows);
+    for row in range(rows):
+        for column in range(columns):
+            finalMatrix[row] += newMatrix[row][column] * eigenVector[column];
 
 createMatrix();

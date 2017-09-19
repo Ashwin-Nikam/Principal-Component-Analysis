@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9dab01b7-16f0-4c67-a076-dbe87103c313" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PrincipalComponentAnalysis.py" afterPath="$PROJECT_DIR$/PrincipalComponentAnalysis.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,7 +17,7 @@
         <entry file="file://$PROJECT_DIR$/PrincipalComponentAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="250">
-              <caret line="73" column="48" lean-forward="false" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
+              <caret line="84" column="77" lean-forward="false" selection-start-line="84" selection-start-column="77" selection-end-line="84" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -216,7 +215,7 @@
     <entry file="file://$PROJECT_DIR$/PrincipalComponentAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
-          <caret line="73" column="48" lean-forward="false" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
+          <caret line="84" column="77" lean-forward="false" selection-start-line="84" selection-start-column="77" selection-end-line="84" selection-end-column="77" />
           <folding />
         </state>
       </provider>
