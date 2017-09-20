@@ -77,6 +77,7 @@ maximum eigenvalue.
 
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance)
+    print(values)
     maxEigenValue = np.amax(values)
     for i in range(len(values)):
         if values[i] == maxEigenValue:
