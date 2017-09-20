@@ -1,6 +1,7 @@
 #Principal Component Analysis
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
@@ -105,6 +106,25 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
         for column in range(columns):
             finalMatrix[row][0] += newMatrix[row][column] * eigenVector1[column]
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
-    print(finalMatrix)
+    createScatterPlot(finalMatrix)
+
+"""
+-------------------------------------------------------------
+Created a scatter-plot showing the reduced dimensions.
+Reference for scatter-plot: https://pythonspot.com/en/matplotlib-scatterplot/
+-------------------------------------------------------------
+"""
+
+def createScatterPlot(finalMatrix):
+    x = [row[0] for row in finalMatrix]
+    y = [row[1] for row in finalMatrix]
+    colors = (0, 0, 0)
+    area = np.pi * 3
+
+    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+    plt.title('Scatter plot with reduced dimensionality')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.show()
 
 createMatrix()
