@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
+diseases = []
+for i in range(len(lines)):
+    diseases.append(lines[i].split("\t")[len(lines[i].split("\t"))-1].strip())
+diseases = np.reshape(diseases,(-1,1))
 
 """
 -------------------------------------------------------------
@@ -78,7 +82,9 @@ maximum eigenvalue.
 
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance)
-    temp = values
+    temp = []
+    for i in range(len(values)):
+        temp.append(values[i])
     temp.sort()
     temp = temp[::-1]
     maxEigenValue1 = temp[0]
@@ -106,6 +112,7 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
         for column in range(columns):
             finalMatrix[row][0] += newMatrix[row][column] * eigenVector1[column]
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
+
     createScatterPlot(finalMatrix)
 
 """
@@ -120,13 +127,10 @@ def createScatterPlot(finalMatrix):
     y = [row[1] for row in finalMatrix]
     colors = (0, 0, 0)
     area = np.pi * 3
-    diseases = []
-    for i in range(len(lines)):
-        diseases.append(lines[i].split("\t")[len(lines[i].split("\t"))-1])
-
-    color_dict = {'Asthma\n':'red', 'Arrhythmia\n':'blue', 'Hypertension\n':'green'}
-
-    plt.scatter(x, y, s=area, c=[color_dict[i] for i in diseases], alpha=0.5)
+    mainMatrix = np.hstack((finalMatrix, diseases))
+    print(mainMatrix)
+    color_dict = {'Asthma':'red', 'Arrhythmia':'blue', 'Hypertension':'green'}
+    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
     plt.title('Scatter plot with reduced dimensionality')
     plt.xlabel('x')
     plt.ylabel('y')
