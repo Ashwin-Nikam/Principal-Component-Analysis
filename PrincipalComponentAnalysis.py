@@ -2,7 +2,7 @@
 
 import numpy as np
 
-file = open("../../Desktop/sample.txt", "r")
+file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 
@@ -78,15 +78,20 @@ maximum eigenvalue.
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance)
     temp = values
-    print(values)
-    print(temp)
-    maxEigenValue = np.amax(values);
-    print(maxEigenValue)
+    temp.sort()
+    temp = temp[::-1]
+    print("Values ",values)
+    print("Temp ",temp)
+    maxEigenValue1 = temp[0]
+    maxEigenValue2 = temp[1]
+    print(maxEigenValue1)
+    print(maxEigenValue2)
     for i in range(len(values)):
-        if values[i] == maxEigenValue:
-            maxEigenVector = vectors[i]
-            break
-    PCAImplementation(maxEigenVector, newMatrix)
+        if values[i] == maxEigenValue1:
+            maxEigenVector1 = vectors[i]
+        elif values[i] == maxEigenValue2:
+            maxEigenVector2 = vectors[i]
+    PCAImplementation(maxEigenVector1, maxEigenVector2, newMatrix)
 
 """
 -------------------------------------------------------------
@@ -96,13 +101,14 @@ to the maximum eigenvalue.
 -------------------------------------------------------------
 """
 
-def PCAImplementation(eigenVector, newMatrix):
+def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
     rows = np.shape(newMatrix)[0]
     columns = np.shape(newMatrix)[1]
-    finalMatrix = np.zeros(rows)
-    for row in range(rows):
-        for column in range(columns):
-            finalMatrix[row] += newMatrix[row][column] * eigenVector[column]
-    print(finalMatrix)
+    finalMatrix = [[0 for x in range(2)] for y in range(rows)]
+    print(np.shape(finalMatrix))
+    #for row in range(rows):
+    #    for column in range(columns):
+    #        finalMatrix[row] += newMatrix[row][column] * eigenVector[column]
+    #print(finalMatrix)
 
 createMatrix()
