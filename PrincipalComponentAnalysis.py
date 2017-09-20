@@ -2,7 +2,7 @@
 
 import numpy as np
 
-file = open("../../Desktop/pca_a.txt", "r")
+file = open("../../Desktop/sample.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 
@@ -77,8 +77,11 @@ maximum eigenvalue.
 
 def generateEigenValuesAndVectors(covariance, newMatrix):
     values, vectors = np.linalg.eig(covariance)
+    temp = values
     print(values)
-    maxEigenValue = values[1];
+    print(temp)
+    maxEigenValue = np.amax(values);
+    print(maxEigenValue)
     for i in range(len(values)):
         if values[i] == maxEigenValue:
             maxEigenVector = vectors[i]
