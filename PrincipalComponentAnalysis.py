@@ -120,8 +120,13 @@ def createScatterPlot(finalMatrix):
     y = [row[1] for row in finalMatrix]
     colors = (0, 0, 0)
     area = np.pi * 3
+    diseases = []
+    for i in range(len(lines)):
+        diseases.append(lines[i].split("\t")[len(lines[i].split("\t"))-1])
 
-    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+    color_dict = {'Asthma\n':'red', 'Arrhythmia\n':'blue', 'Hypertension\n':'green'}
+
+    plt.scatter(x, y, s=area, c=[color_dict[i] for i in diseases], alpha=0.5)
     plt.title('Scatter plot with reduced dimensionality')
     plt.xlabel('x')
     plt.ylabel('y')
