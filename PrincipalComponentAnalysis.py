@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-file = open("../../Desktop/pca_c.txt", "r")
+file = open("../../Desktop/pca_b.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -188,3 +188,5 @@ Main call to all the methods.
 createMatrix()
 SVDReduction(matrix)
 TSNEReduction(matrix)
+
+#-----------------------------------------------------------------------------------------------------------------------
