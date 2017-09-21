@@ -75,8 +75,8 @@ def transformedMatrix(matrix, mean, rows, columns):
 """
 -------------------------------------------------------------
 Generated the eigenvalues and eigenvectors from the covariance
-matrix. Then selected the eigenvector corresponding to the 
-maximum eigenvalue.
+matrix. Then selected the 2 eigenvectors corresponding to the 
+maximum 2 eigenvalues.
 -------------------------------------------------------------
 """
 
@@ -99,8 +99,8 @@ def generateEigenValuesAndVectors(covariance, newMatrix):
 """
 -------------------------------------------------------------
 This is the main and final method for dimensionality reduction.
-Multiplied each row in the newMatrix by the eigenvector corresponding
-to the maximum eigenvalue.
+Multiplied each row in the newMatrix by the eigenvectors corresponding
+to the maximum eigenvalues.
 -------------------------------------------------------------
 """
 
@@ -123,17 +123,22 @@ Reference for scatter-plot: https://pythonspot.com/en/matplotlib-scatterplot/
 """
 
 def createScatterPlot(finalMatrix):
-    x = [row[0] for row in finalMatrix]
-    y = [row[1] for row in finalMatrix]
-    colors = (0, 0, 0)
-    area = np.pi * 3
     mainMatrix = np.hstack((finalMatrix, diseases))
-    print(mainMatrix)
-    color_dict = {'Asthma':'red', 'Arrhythmia':'blue', 'Hypertension':'green'}
-    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+    d = {ni: indi for indi, ni in enumerate(set(mainMatrix[:, 2]))}
+    numbers = [d[ni] for ni in mainMatrix[:, 2]]
+    numbers = np.reshape(numbers, (-1, 1))
+    mainMatrix = np.hstack((mainMatrix, numbers))
+    x = [row[0] for row in mainMatrix]
+    y = [row[1] for row in mainMatrix]
+
+    area = np.pi * 15
+    plt.scatter(x, y, s=area, c=numbers,
+                cmap='Set1', alpha=1)
     plt.title('Scatter plot with reduced dimensionality')
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.xlabel('PC1')
+    plt.ylabel('PC2')
+    plt.grid(True)
+    plt.legend()
     plt.show()
 
 createMatrix()
