@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-file = open("../../Desktop/pca_a.txt", "r")
+file = open("../../Desktop/pca_c.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -135,10 +135,54 @@ def createScatterPlot(finalMatrix):
     plt.scatter(x, y, s=area, c=numbers,
                 cmap='Set1', alpha=1)
     plt.title('Scatter plot with reduced dimensionality')
-    plt.xlabel('PC1')
-    plt.ylabel('PC2')
+    plt.xlabel('Dimension 1')
+    plt.ylabel('Dimension 2')
     plt.grid(True)
     plt.legend()
     plt.show()
 
+"""
+-------------------------------------------------------------
+Now we apply existing packages to run SVD algorithm and 
+visualize the data-points
+-------------------------------------------------------------
+"""
+
+from sklearn.decomposition import TruncatedSVD
+
+columns = findNumFeatures(lines)
+matrix = [[0 for x in range(columns)] for y in range(rows)]
+for row in range(rows):
+    features = lines[row].split("\t")
+    for column in range(columns):
+        matrix[row][column] = features[column]
+
+def SVDReduction(matrix):
+    svd = TruncatedSVD(n_components=2, n_iter=7)
+    newMatrix = svd.fit_transform(matrix)
+    print(newMatrix)
+    createScatterPlot(newMatrix)
+
+"""
+-------------------------------------------------------------
+Now we apply existing packages to run TSNE algorithm and 
+visualize the data-points
+-------------------------------------------------------------
+"""
+
+from sklearn.manifold import TSNE
+
+def TSNEReduction(matrix):
+    newMatrix = TSNE(n_components=2).fit_transform(matrix)
+    createScatterPlot(newMatrix)
+
+"""
+-------------------------------------------------------------
+Now we apply existing packages to run TSNE algorithm and 
+visualize the data-points
+-------------------------------------------------------------
+"""
+
 createMatrix()
+SVDReduction(matrix)
+TSNEReduction(matrix)
