@@ -160,7 +160,6 @@ for row in range(rows):
 def SVDReduction(matrix):
     svd = TruncatedSVD(n_components=2, n_iter=7)
     newMatrix = svd.fit_transform(matrix)
-    print(newMatrix)
     createScatterPlot(newMatrix)
 
 """
@@ -178,8 +177,7 @@ def TSNEReduction(matrix):
 
 """
 -------------------------------------------------------------
-Now we apply existing packages to run TSNE algorithm and 
-visualize the data-points
+Main call to all the methods.
 -------------------------------------------------------------
 """
 
