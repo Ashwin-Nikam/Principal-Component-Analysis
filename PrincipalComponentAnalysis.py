@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-file = open("../../Desktop/pca_b.txt", "r")
+file = open("../../Desktop/pca_demo.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -51,6 +51,7 @@ This method calculates the mean of each feature
 and stores it in a list called mean.
 -------------------------------------------------------------
 """
+
 def findMean(matrix, rows, columns):
     mean = [0 for i in range(columns)]
     for column in range(columns):
@@ -117,33 +118,52 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
             finalMatrix[row][0] += newMatrix[row][column] * eigenVector1[column]
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
 
-    createScatterPlot(finalMatrix)
+    dict = mappingMethod(finalMatrix)
+    createScatterPlot(finalMatrix, dict)
 
 """
 -------------------------------------------------------------
 Created a scatter-plot showing the reduced dimensions.
-Reference for scatter-plot: https://pythonspot.com/en/matplotlib-scatterplot/
 -------------------------------------------------------------
 """
 
-def createScatterPlot(finalMatrix):
+def createScatterPlot(finalMatrix, dict):
     mainMatrix = np.hstack((finalMatrix, diseases))
-    d = {ni: indi for indi, ni in enumerate(set(mainMatrix[:, 2]))}
-    numbers = [d[ni] for ni in mainMatrix[:, 2]]
-    numbers = np.reshape(numbers, (-1, 1))
-    mainMatrix = np.hstack((mainMatrix, numbers))
-    x = [row[0] for row in mainMatrix]
-    y = [row[1] for row in mainMatrix]
-
+    numbers = [dict[i] for i in mainMatrix[:, 2]]
+    
     area = np.pi * 15
-    plt.scatter(x, y, s=area, c=numbers,
-                cmap='Set1', alpha=1)
+
+    plt.scatter(mainMatrix[:,0], mainMatrix[:,1], s=area, c= numbers,
+                cmap='Set1', alpha=1, label=mainMatrix[:,2])
+
+
     plt.title('Scatter plot with reduced dimensionality')
     plt.xlabel('Dimension 1')
     plt.ylabel('Dimension 2')
     plt.grid(True)
-    plt.legend()
+    plt.legend(scatterpoints = 1)
     plt.show()
+
+"""
+-------------------------------------------------------------
+Method to map unique class labels to unique numbers in a
+dictionary for purposes of coloring the graph
+-------------------------------------------------------------
+"""
+
+def mappingMethod(finalMatrix):
+    mainMatrix = np.hstack((finalMatrix, diseases))
+    rows = np.shape(mainMatrix)[0]
+    dictionary = dict()
+    count = 0
+    for i in range(rows):
+        disease = mainMatrix[i][2]
+        if disease in dictionary:
+            continue
+        else:
+            count+=1
+            dictionary[disease] = count
+    return dictionary
 
 """
 -------------------------------------------------------------
@@ -162,7 +182,7 @@ for row in range(rows):
         matrix[row][column] = features[column]
 
 def SVDReduction(matrix):
-    svd = TruncatedSVD(n_components=2, n_iter=7)
+    svd = TruncatedSVD(n_components=2)
     newMatrix = svd.fit_transform(matrix)
     createScatterPlot(newMatrix)
 
@@ -186,7 +206,7 @@ Main call to all the methods.
 """
 
 createMatrix()
-SVDReduction(matrix)
-TSNEReduction(matrix)
+#SVDReduction(matrix)
+#TSNEReduction(matrix)
 
 #-----------------------------------------------------------------------------------------------------------------------
