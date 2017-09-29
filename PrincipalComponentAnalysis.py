@@ -6,8 +6,9 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
-file = open("../../Desktop/pca_demo.txt", "r")
+file = open("../../pca_demo.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -130,19 +131,16 @@ Created a scatter-plot showing the reduced dimensions.
 def createScatterPlot(finalMatrix, dict):
     mainMatrix = np.hstack((finalMatrix, diseases))
     numbers = [dict[i] for i in mainMatrix[:, 2]]
-    
+
     area = np.pi * 15
-
     plt.scatter(mainMatrix[:,0], mainMatrix[:,1], s=area, c= numbers,
-                cmap='Set1', alpha=1, label=mainMatrix[:,2])
-
-
+                cmap='Set1', alpha=1)
     plt.title('Scatter plot with reduced dimensionality')
     plt.xlabel('Dimension 1')
     plt.ylabel('Dimension 2')
     plt.grid(True)
     plt.legend(scatterpoints = 1)
-    plt.show()
+    #plt.show()
 
 """
 -------------------------------------------------------------
@@ -150,6 +148,11 @@ Method to map unique class labels to unique numbers in a
 dictionary for purposes of coloring the graph
 -------------------------------------------------------------
 """
+
+def convertToCSV(matrix, filename):
+    df = pd.DataFrame(matrix)
+    df.to_csv(filename)
+
 
 def mappingMethod(finalMatrix):
     mainMatrix = np.hstack((finalMatrix, diseases))
