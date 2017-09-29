@@ -8,27 +8,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-file = open("../../pca_demo.txt", "r")
+file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
 for i in range(len(lines)):
     diseases.append(lines[i].split("\t")[len(lines[i].split("\t"))-1].strip())
 diseases = np.reshape(diseases,(-1,1))
-
-"""
--------------------------------------------------------------
-Method for calculating the number of features
--------------------------------------------------------------
-"""
-
-def findNumFeatures(lines):
-    record = lines[0]
-    nFeatures = 0
-    for word in record:
-        if word == "\t":
-            nFeatures += 1
-    return nFeatures
 
 """ 
 -------------------------------------------------------------
@@ -46,13 +32,26 @@ def createMatrix():
             matrix[row][column] = features[column]
     findMean(matrix, rows, columns)
 
+"""
+-------------------------------------------------------------
+Method for calculating the number of features
+-------------------------------------------------------------
+"""
+
+def findNumFeatures(lines):
+    record = lines[0]
+    nFeatures = 0
+    for word in record:
+        if word == "\t":
+            nFeatures += 1
+    return nFeatures
+
 """ 
 -------------------------------------------------------------
 This method calculates the mean of each feature
 and stores it in a list called mean.
 -------------------------------------------------------------
 """
-
 def findMean(matrix, rows, columns):
     mean = [0 for i in range(columns)]
     for column in range(columns):
@@ -119,54 +118,33 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
             finalMatrix[row][0] += newMatrix[row][column] * eigenVector1[column]
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
 
-    dict = mappingMethod(finalMatrix)
-    createScatterPlot(finalMatrix, dict)
+    convertToCSV(finalMatrix,"PCA1.csv")
 
 """
 -------------------------------------------------------------
 Created a scatter-plot showing the reduced dimensions.
+Reference for scatter-plot: https://pythonspot.com/en/matplotlib-scatterplot/
 -------------------------------------------------------------
 """
 
-def createScatterPlot(finalMatrix, dict):
+def createScatterPlot(finalMatrix):
     mainMatrix = np.hstack((finalMatrix, diseases))
-    numbers = [dict[i] for i in mainMatrix[:, 2]]
+    d = {ni: indi for indi, ni in enumerate(set(mainMatrix[:, 2]))}
+    numbers = [d[ni] for ni in mainMatrix[:, 2]]
+    numbers = np.reshape(numbers, (-1, 1))
+    mainMatrix = np.hstack((mainMatrix, numbers))
+    x = [row[0] for row in mainMatrix]
+    y = [row[1] for row in mainMatrix]
 
     area = np.pi * 15
-    plt.scatter(mainMatrix[:,0], mainMatrix[:,1], s=area, c= numbers,
+    plt.scatter(x, y, s=area, c=numbers,
                 cmap='Set1', alpha=1)
     plt.title('Scatter plot with reduced dimensionality')
     plt.xlabel('Dimension 1')
     plt.ylabel('Dimension 2')
     plt.grid(True)
-    plt.legend(scatterpoints = 1)
-    #plt.show()
-
-"""
--------------------------------------------------------------
-Method to map unique class labels to unique numbers in a
-dictionary for purposes of coloring the graph
--------------------------------------------------------------
-"""
-
-def convertToCSV(matrix, filename):
-    df = pd.DataFrame(matrix)
-    df.to_csv(filename)
-
-
-def mappingMethod(finalMatrix):
-    mainMatrix = np.hstack((finalMatrix, diseases))
-    rows = np.shape(mainMatrix)[0]
-    dictionary = dict()
-    count = 0
-    for i in range(rows):
-        disease = mainMatrix[i][2]
-        if disease in dictionary:
-            continue
-        else:
-            count+=1
-            dictionary[disease] = count
-    return dictionary
+    plt.legend()
+    plt.show()
 
 """
 -------------------------------------------------------------
@@ -185,9 +163,9 @@ for row in range(rows):
         matrix[row][column] = features[column]
 
 def SVDReduction(matrix):
-    svd = TruncatedSVD(n_components=2)
+    svd = TruncatedSVD(n_components=2, n_iter=7)
     newMatrix = svd.fit_transform(matrix)
-    createScatterPlot(newMatrix)
+    convertToCSV(newMatrix,"SVD1.csv")
 
 """
 -------------------------------------------------------------
@@ -200,7 +178,17 @@ from sklearn.manifold import TSNE
 
 def TSNEReduction(matrix):
     newMatrix = TSNE(n_components=2).fit_transform(matrix)
-    createScatterPlot(newMatrix)
+    convertToCSV(newMatrix,"TSNE1.csv")
+
+"""
+------------------------------------------------------------
+Method for converting Matrix to CSV
+------------------------------------------------------------
+"""
+
+def convertToCSV(matrix,filename):
+	df=pd.DataFrame(matrix)
+	df.to_csv(filename)
 
 """
 -------------------------------------------------------------
@@ -209,7 +197,7 @@ Main call to all the methods.
 """
 
 createMatrix()
-#SVDReduction(matrix)
-#TSNEReduction(matrix)
+SVDReduction(matrix)
+TSNEReduction(matrix)
 
 #-----------------------------------------------------------------------------------------------------------------------
