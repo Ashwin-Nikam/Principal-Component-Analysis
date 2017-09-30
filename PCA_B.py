@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-file = open("C:/Users/Arnav/Desktop/pca_a.txt", "r")
+file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -130,7 +130,7 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
             finalMatrix[row][0] += newMatrix[row][column] * eigenVector1[column]
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
 
-    convertToCSV(finalMatrix,"PCA1.csv")
+    convertToCSV(finalMatrix,"PCA2.csv")
 
 """
 -------------------------------------------------------------
@@ -177,7 +177,7 @@ for row in range(rows):
 def SVDReduction(matrix):
     svd = TruncatedSVD(n_components=2, n_iter=7)
     newMatrix = svd.fit_transform(matrix)
-    convertToCSV(newMatrix,"SVD1.csv")
+    convertToCSV(newMatrix,"SVD2.csv")
 
 """
 -------------------------------------------------------------
@@ -190,7 +190,7 @@ from sklearn.manifold import TSNE
 
 def TSNEReduction(matrix):
     newMatrix = TSNE(n_components=2).fit_transform(matrix)
-    convertToCSV(newMatrix,"TSNE1.csv")
+    convertToCSV(newMatrix,"TSNE2.csv")
 
 """
 -------------------------------------------------------------

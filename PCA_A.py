@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-file = open("C:/Users/Arnav/Desktop/pca_a.txt", "r")
+file = open("../../Desktop/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
