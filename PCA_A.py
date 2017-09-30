@@ -5,10 +5,9 @@
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 
-file = open("input/pca_a.txt", "r")
+file = open("Input/pca_a.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
