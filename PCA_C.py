@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-file = open("../../Desktop/pca_a.txt", "r")
+file = open("input/pca_c.txt", "r")
 lines = file.readlines()
 rows = len(lines)
 diseases = []
@@ -131,32 +131,6 @@ def PCAImplementation(eigenVector1, eigenVector2, newMatrix):
             finalMatrix[row][1] += newMatrix[row][column] * eigenVector2[column]
 
     convertToCSV(finalMatrix,"PCA3.csv")
-
-"""
--------------------------------------------------------------
-Created a scatter-plot showing the reduced dimensions.
-Reference for scatter-plot: https://pythonspot.com/en/matplotlib-scatterplot/
--------------------------------------------------------------
-"""
-
-def createScatterPlot(finalMatrix):
-    mainMatrix = np.hstack((finalMatrix, diseases))
-    d = {ni: indi for indi, ni in enumerate(set(mainMatrix[:, 2]))}
-    numbers = [d[ni] for ni in mainMatrix[:, 2]]
-    numbers = np.reshape(numbers, (-1, 1))
-    mainMatrix = np.hstack((mainMatrix, numbers))
-    x = [row[0] for row in mainMatrix]
-    y = [row[1] for row in mainMatrix]
-
-    area = np.pi * 15
-    plt.scatter(x, y, s=area, c=numbers,
-                cmap='Set1', alpha=1)
-    plt.title('Scatter plot with reduced dimensionality')
-    plt.xlabel('Dimension 1')
-    plt.ylabel('Dimension 2')
-    plt.grid(True)
-    plt.legend()
-    plt.show()
 
 """
 -------------------------------------------------------------
